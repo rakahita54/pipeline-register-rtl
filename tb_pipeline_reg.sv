@@ -15,9 +15,7 @@ module tb_pipeline_reg;
     logic out_valid;
     logic out_ready;
 
-    //---------------------------------------------------------
     // DUT
-    //---------------------------------------------------------
     pipeline_reg #(.DATA_WIDTH(DATA_WIDTH)) dut (
         .clk(clk),
         .rst_n(rst_n),
@@ -28,16 +26,11 @@ module tb_pipeline_reg;
         .out_valid(out_valid),
         .out_ready(out_ready)
     );
-
-    //---------------------------------------------------------
     // Clock
-    //---------------------------------------------------------
     initial clk = 0;
     always #5 clk = ~clk;
-
-    //---------------------------------------------------------
+    
     // Assertions
-    //---------------------------------------------------------
     property hold_data_when_stalled;
         @(posedge clk)
         out_valid && !out_ready |-> $stable(out_data);
@@ -50,9 +43,7 @@ module tb_pipeline_reg;
     endproperty
     assert property(reset_clears_valid);
 
-    //---------------------------------------------------------
     // Stimulus
-    //---------------------------------------------------------
     initial begin
 
         rst_n = 0;
@@ -104,3 +95,4 @@ module tb_pipeline_reg;
     end
 
 endmodule
+
